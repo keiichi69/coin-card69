@@ -5,19 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thằng nào click link là gey</title>
     
-    <!-- Thêm Inter Font từ Google Fonts để đảm bảo phông chữ hiển thị đúng --><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap" rel="stylesheet">
+    <!-- Thay đổi Font: Sử dụng Oswald - font chữ đậm và rõ ràng -->
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap" rel="stylesheet">
     
     <!-- Tải Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Thiết lập font chữ Inter làm mặc định */
+        /* Thiết lập font chữ Oswald làm mặc định */
         :root {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Oswald', sans-serif;
         }
 
         body {
             background-color: #1a1a2e; 
             min-height: 100vh;
-            overflow: hidden; /* Quan trọng: ẩn nội dung di chuyển ra khỏi màn hình */
+            overflow: hidden; 
             display: flex;
             justify-content: center;
             align-items: center;
@@ -54,9 +55,9 @@
             -webkit-text-stroke: 2px black; 
             text-stroke: 2px black;
             color: white; 
-            font-weight: 900;
+            font-weight: 700; /* Phù hợp với Oswald */
             user-select: none;
-            line-height: 1.2;
+            line-height: 1.0; /* Giảm khoảng cách dòng để chữ gọn hơn */
             text-align: center;
         }
 
@@ -66,26 +67,29 @@
         .moving-container {
             width: 85vw; 
             max-width: 650px; 
-            height: 18vw; 
-            max-height: 120px;
+            /* Tăng chiều cao để chứa vừa cả chữ và GIF */
+            height: 35vw; 
+            max-height: 250px; 
             
             position: absolute;
             
-            /* SỬA: Loại bỏ hiệu ứng rối mắt, dùng chuyển động đơn giản */
-            animation: simple-diag-move 12s infinite alternate ease-in-out, /* Tốc độ vừa phải */
+            animation: simple-diag-move 12s infinite alternate ease-in-out, 
                        neon-glow 3s infinite linear;
             z-index: 10;
             
-            position: relative;
-            overflow: hidden;
+            /* Dùng Flexbox để căn giữa nội dung bên trong */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
             border-radius: 1.5rem; 
-            
-            /* SỬA: Loại bỏ các hiệu ứng làm mờ/rối mắt */
             transition: none; 
             filter: none; 
+            overflow: hidden;
         }
 
-        /* THAY ĐỔI: Định nghĩa chuyển động đường chéo đơn giản, không 3D, không làm mờ */
+        /* Định nghĩa chuyển động đường chéo đơn giản */
         @keyframes simple-diag-move {
             0% { 
                 top: 5%; 
@@ -100,32 +104,32 @@
         }
 
 
-        /* GIF được đặt tuyệt đối để nằm ở nền của khối di chuyển */
+        /* GIF được đặt làm nền cho khối, dùng z-index thấp */
         .gif-follower {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            /* FIX CỨNG: Bắt buộc hiển thị toàn bộ GIF, kể cả khoảng trống nếu cần */
+            /* Bắt buộc hiển thị toàn bộ GIF */
             object-fit: contain; 
-            opacity: 0.7; /* Giảm độ sáng cho chữ nổi bật */
+            opacity: 0.7; 
             z-index: 5; 
-            background-color: black; /* Màu đen làm nền nếu object-fit: contain */
+            background-color: black; 
         }
         
         /* Điều chỉnh kích thước chữ cho di động và máy tính */
         .text-size-responsive {
-            font-size: 1.5rem; 
+            font-size: 1.8rem; /* Tăng nhẹ để Oswald trông đẹp hơn */
         }
         @media (min-width: 640px) { 
             .text-size-responsive {
-                font-size: 2.2rem;
+                font-size: 2.5rem;
             }
         }
         @media (min-width: 1024px) { 
             .text-size-responsive {
-                font-size: 3rem;
+                font-size: 3.5rem;
             }
         }
 
@@ -151,12 +155,15 @@
         />
 
         <!-- CHỮ (Nằm trên GIF, được căn giữa) -->
-        <h1 class="rainbow-text text-size-responsive absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
-            Thằng nào click link là gey
+        <!-- Sửa: Thêm <br> để kiểm soát xuống dòng -->
+        <h1 class="rainbow-text text-size-responsive z-20">
+            Thằng nào<br>click link là gey
         </h1>
     </div>
 
 </body>
 </html>
+
+
 
 
