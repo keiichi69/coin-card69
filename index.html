@@ -39,11 +39,10 @@
 
         .rainbow-text {
             animation: rainbow 3s infinite linear;
-            /* TĂNG CƯỜNG: Tăng bóng đổ đen để chữ nổi rõ hơn trên nền GIF */
-            text-shadow: 0 0 20px rgba(0, 0, 0, 1), 0 0 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 255, 255, 0.5); 
-            /* TĂNG CƯỜNG: Tăng viền trắng lên 3px */
-            -webkit-text-stroke: 3px white; 
-            text-stroke: 3px white;
+            /* Tăng bóng đổ và viền cho chữ nổi bật hơn */
+            text-shadow: 0 0 15px rgba(0, 0, 0, 1), 0 0 20px rgba(255, 255, 255, 0.5); 
+            -webkit-text-stroke: 1.5px white; 
+            text-stroke: 1.5px white;
             font-weight: 900;
             user-select: none;
             line-height: 1.2;
@@ -54,19 +53,20 @@
         /* CSS cho Khối Di Chuyển (Chứa cả Chữ và GIF) */
         /* ---------------------------------------------------- */
         .moving-container {
-            /* ĐÃ CHỈNH SỬA: Thay đổi tỷ lệ sang hình chữ nhật ngang (ví dụ: 2:1) */
-            width: 90vw; 
-            max-width: 400px; /* Rộng hơn một chút */
-            height: 45vw; /* Chiều cao bằng một nửa chiều rộng (tạo tỷ lệ ngang) */
-            max-height: 200px; /* Ngắn hơn */
+            /* Kích thước lớn cho khối di chuyển */
+            width: 90vw; /* Chiều rộng 90% màn hình */
+            max-width: 500px; 
+            height: 90vw;
+            max-height: 500px;
             
             position: absolute;
+            /* Đặt lại vị trí ban đầu để keyframes có thể điều khiển tuyệt đối */
             top: 0; 
             left: 0;
             transform: none; 
             
-            /* GIỮ NGUYÊN: Tốc độ di chuyển chậm (20s) */
-            animation: move-out-of-frame 20s infinite linear; 
+            /* THAY ĐỔI: Animation mới, di chuyển liên tục, không nảy ngược */
+            animation: move-out-of-frame 10s infinite linear; 
             z-index: 10;
             
             position: relative;
@@ -75,16 +75,20 @@
             box-shadow: 0 0 40px rgba(255, 0, 255, 0.5); /* Thêm hiệu ứng phát sáng */
         }
 
-        /* Định nghĩa chuyển động đi xuyên màn hình */
+        /* THAY ĐỔI: Định nghĩa chuyển động đi xuyên màn hình */
         @keyframes move-out-of-frame {
             0% { 
+                /* Bắt đầu: Nằm giữa chiều dọc, hoàn toàn ngoài màn hình bên trái */
                 top: 50%; 
                 left: -50%; 
+                /* Dịch chuyển lên 50% chiều cao để căn giữa và xoay 0 độ */
                 transform: translate(0, -50%) rotate(0deg); 
             }
             100% { 
+                /* Kết thúc: Nằm giữa chiều dọc, hoàn toàn ngoài màn hình bên phải */
                 top: 50%; 
                 left: 150%; 
+                /* Dịch chuyển lên 50% chiều cao để căn giữa và xoay 360 độ */
                 transform: translate(0, -50%) rotate(360deg); 
             }
         }
@@ -97,24 +101,22 @@
             width: 100%;
             height: 100%;
             object-fit: cover; /* Đảm bảo GIF phủ kín khối */
-            /* GIỮ NGUYÊN: Opacity 0.6 để nền dịu đi */
-            opacity: 0.6; 
+            opacity: 0.8;
             z-index: 5; /* Nằm dưới chữ */
         }
         
         /* Điều chỉnh kích thước chữ cho di động và máy tính */
         .text-size-responsive {
-            /* Giữ kích thước chữ để nó to và nổi bật */
             font-size: 1.5rem; /* Mặc định cho di động */
         }
         @media (min-width: 640px) { /* Cho máy tính/tablet */
             .text-size-responsive {
-                font-size: 2.25rem;
+                font-size: 2.5rem;
             }
         }
         @media (min-width: 1024px) { /* Cho desktop */
             .text-size-responsive {
-                font-size: 3rem;
+                font-size: 3.5rem;
             }
         }
 
@@ -134,7 +136,7 @@
                 this.src='https://i.imgur.com/zN48rQh.png'; /* Ảnh tĩnh dự phòng */
                 this.alt='Rick Astley - GIF failed to load'; 
                 this.style.opacity='1'; 
-                this.style.object-fit='contain'; 
+                this.style.objectFit='contain'; 
                 this.style.backgroundColor='#1a1a2e';
             "
         />
@@ -147,4 +149,6 @@
 
 </body>
 </html>
+
+
 
