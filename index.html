@@ -25,24 +25,35 @@
         }
 
         /* ---------------------------------------------------- */
-        /* CSS cho Hiệu Ứng Cầu Vồng (7 Màu) */
+        /* CSS cho Hiệu Ứng Cầu Vồng & Neon Glow */
         /* ---------------------------------------------------- */
         @keyframes rainbow {
-            0%   { color: #ff0000; } /* Đỏ */
-            16%  { color: #ff7f00; } /* Cam */
-            32%  { color: #ffff00; } /* Vàng */
-            48%  { color: #00ff00; } /* Lục */
-            64%  { color: #0000ff; } /* Lam */
-            80%  { color: #4b0082; } /* Chàm */
-            100% { color: #9400d3; } /* Tím */
+            0%   { color: #ff0000; } 
+            16%  { color: #ff7f00; } 
+            32%  { color: #ffff00; } 
+            48%  { color: #00ff00; } 
+            64%  { color: #0000ff; } 
+            80%  { color: #4b0082; } 
+            100% { color: #9400d3; } 
+        }
+        
+        /* Keyframes cho hiệu ứng phát sáng Neon của khối container */
+        @keyframes neon-glow {
+            0%   { box-shadow: 0 0 10px #ff0000, 0 0 40px #ff0000; } 
+            16%  { box-shadow: 0 0 10px #ff7f00, 0 0 40px #ff7f00; } 
+            32%  { box-shadow: 0 0 10px #ffff00, 0 0 40px #ffff00; } 
+            48%  { box-shadow: 0 0 10px #00ff00, 0 0 40px #00ff00; } 
+            64%  { box-shadow: 0 0 10px #0000ff, 0 0 40px #0000ff; } 
+            80%  { box-shadow: 0 0 10px #4b0082, 0 0 40px #4b0082; } 
+            100% { box-shadow: 0 0 10px #9400d3, 0 0 40px #9400d3; } 
         }
 
         .rainbow-text {
             animation: rainbow 3s infinite linear;
-            /* Tăng bóng đổ và viền cho chữ nổi bật hơn */
             text-shadow: 0 0 15px rgba(0, 0, 0, 1), 0 0 20px rgba(255, 255, 255, 0.5); 
-            -webkit-text-stroke: 1.5px white; 
-            text-stroke: 1.5px white;
+            -webkit-text-stroke: 2px black; 
+            text-stroke: 2px black;
+            color: white; 
             font-weight: 900;
             user-select: none;
             line-height: 1.2;
@@ -53,45 +64,41 @@
         /* CSS cho Khối Di Chuyển (Chứa cả Chữ và GIF) */
         /* ---------------------------------------------------- */
         .moving-container {
-            /* Kích thước lớn cho khối di chuyển */
-            width: 90vw; /* Chiều rộng 90% màn hình */
-            max-width: 500px; 
-            height: 90vw;
-            max-height: 500px;
+            width: 85vw; 
+            max-width: 650px; 
+            height: 18vw; 
+            max-height: 120px;
             
             position: absolute;
-            /* Đặt lại vị trí ban đầu để keyframes có thể điều khiển tuyệt đối */
-            top: 0; 
-            left: 0;
-            transform: none; 
             
-            /* ĐÃ SỬA: Tăng thời gian animation từ 10s lên 20s để xoay chậm hơn */
-            animation: move-out-of-frame 20s infinite linear; 
+            /* SỬA: Loại bỏ hiệu ứng rối mắt, dùng chuyển động đơn giản */
+            animation: simple-diag-move 12s infinite alternate ease-in-out, /* Tốc độ vừa phải */
+                       neon-glow 3s infinite linear;
             z-index: 10;
             
             position: relative;
             overflow: hidden;
-            border-radius: 1.5rem; /* Góc bo tròn */
-            box-shadow: 0 0 40px rgba(255, 0, 255, 0.5); /* Thêm hiệu ứng phát sáng */
+            border-radius: 1.5rem; 
+            
+            /* SỬA: Loại bỏ các hiệu ứng làm mờ/rối mắt */
+            transition: none; 
+            filter: none; 
         }
 
-        /* THAY ĐỔI: Định nghĩa chuyển động đi xuyên màn hình */
-        @keyframes move-out-of-frame {
+        /* THAY ĐỔI: Định nghĩa chuyển động đường chéo đơn giản, không 3D, không làm mờ */
+        @keyframes simple-diag-move {
             0% { 
-                /* Bắt đầu: Nằm giữa chiều dọc, hoàn toàn ngoài màn hình bên trái */
-                top: 50%; 
-                left: -50%; 
-                /* Dịch chuyển lên 50% chiều cao để căn giữa và xoay 0 độ */
-                transform: translate(0, -50%) rotate(0deg); 
+                top: 5%; 
+                left: 5%; 
+                transform: translate(0, 0) scale(1); 
             }
             100% { 
-                /* Kết thúc: Nằm giữa chiều dọc, hoàn toàn ngoài màn hình bên phải */
-                top: 50%; 
-                left: 150%; 
-                /* Dịch chuyển lên 50% chiều cao để căn giữa và xoay 360 độ */
-                transform: translate(0, -50%) rotate(360deg); 
+                top: 95%; 
+                left: 95%; 
+                transform: translate(-100%, -100%) scale(1); 
             }
         }
+
 
         /* GIF được đặt tuyệt đối để nằm ở nền của khối di chuyển */
         .gif-follower {
@@ -100,23 +107,25 @@
             left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Đảm bảo GIF phủ kín khối */
-            opacity: 0.8;
-            z-index: 5; /* Nằm dưới chữ */
+            /* FIX CỨNG: Bắt buộc hiển thị toàn bộ GIF, kể cả khoảng trống nếu cần */
+            object-fit: contain; 
+            opacity: 0.7; /* Giảm độ sáng cho chữ nổi bật */
+            z-index: 5; 
+            background-color: black; /* Màu đen làm nền nếu object-fit: contain */
         }
         
         /* Điều chỉnh kích thước chữ cho di động và máy tính */
         .text-size-responsive {
-            font-size: 1.5rem; /* Mặc định cho di động */
+            font-size: 1.5rem; 
         }
-        @media (min-width: 640px) { /* Cho máy tính/tablet */
+        @media (min-width: 640px) { 
             .text-size-responsive {
-                font-size: 2.5rem;
+                font-size: 2.2rem;
             }
         }
-        @media (min-width: 1024px) { /* Cho desktop */
+        @media (min-width: 1024px) { 
             .text-size-responsive {
-                font-size: 3.5rem;
+                font-size: 3rem;
             }
         }
 
@@ -136,7 +145,7 @@
                 this.src='https://i.imgur.com/zN48rQh.png'; /* Ảnh tĩnh dự phòng */
                 this.alt='Rick Astley - GIF failed to load'; 
                 this.style.opacity='1'; 
-                this.style.objectFit='contain'; 
+                this.style.object-fit='contain'; 
                 this.style.backgroundColor='#1a1a2e';
             "
         />
@@ -149,3 +158,5 @@
 
 </body>
 </html>
+
+
